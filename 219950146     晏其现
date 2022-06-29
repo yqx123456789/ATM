@@ -1,0 +1,174 @@
+#include"stdio.h"
+#include"stdlib.h"
+#include"string.h"
+#include"time.h"
+#include"cstdio"
+#include"windows.h"
+#include"conio.h"
+
+
+//函数声明
+void loadData();
+void InitTraData();
+void SignUp(); 
+void SignIn();   
+void Menu(); 
+void SaveMoney(); 
+void SaveMoney1();
+void WithdrawMoney();  
+void WithdrawMoney1(); 
+void TransferMoney();   
+void TransferMoney1();  
+void Inquire();   
+void InquireBalance(); 
+void InqInformation();  
+void InqRecord(); 
+void ChangeInformation();  
+void ChangeUserName();   
+void ChangePhone();   
+void ChangePassword(); 
+void getPassword(char a[], int b);  
+void SysTime();       
+void SaveUserData();    
+void SaveTransactionData();     
+void IniUser_Data();     
+void SetPassword();           
+void SetPhoneNum();          
+void SaveTransaction();      
+void WithdrawTransaction();    
+void TransferTransaction();      
+void HandTransaction();        
+void PrintTransaction();   
+float HandMoney; 
+int QK = 0, CK = 0, ZZ = 0;
+
+
+struct Account
+{
+	char name[100];
+	char AccountNum[50];
+	char PhoneNum[12];
+	char password[10];
+	float balance;
+
+	struct Account* next;
+};
+
+struct Trade
+{
+	char TAccountNum[50];
+	char Time[100];
+	char Operation[100];
+	float Money;
+
+	struct Trade* Tnext;
+};
+
+typedef struct Account Account;
+typedef struct Trade Trade;
+Account* Pset = (Account*)malloc(sizeof(Account));
+Account* head = NULL;
+Account* tail = NULL;
+Account* curAccount;
+Account* curAccountO;
+Account ZX;
+
+Trade* THead = NULL;
+Trade* TTail = NULL;
+Trade* TCurAccount;
+Trade TA;
+
+
+int FindACC(Account IV1)//登录时查找当前账户
+{
+	Account* curP = head;
+	Trade* TcurP = THead;
+	while (curP != NULL)
+	{
+		if (strcmp(curP->AccountNum, IV1.AccountNum) == 0)
+		{
+			return 1;
+		}
+		curP = curP->next;
+	}
+	return 0;
+}
+
+int FindPassword(Account IV1)//登录时查找当前账户密码
+{
+	Account* curP = head;
+	while (curP != NULL)
+	{
+		if (strcmp(curP->AccountNum, IV1.AccountNum) == 0 && strcmp(curP->password, IV1.password) == 0)
+		{
+			curAccount = curP;
+			return 1;
+		}
+		curP = curP->next;
+	}
+	return 0;
+}
+
+int FindACC2(Account IV)//查找是否被已有账户
+{
+	Account* curP = head;
+	while (curP != NULL)
+	{
+		if (strcmp(curP->AccountNum, IV.AccountNum) == 0)
+		{
+			return 1;
+		}
+		curP = curP->next;
+	}
+	return 0;
+}
+
+int FindACC3(Account TT)//查找转账账户
+{
+	Account* curP = head;
+	while (curP != NULL)
+	{
+		if (strcmp(curAccount->AccountNum, TT.AccountNum) == 0)
+		{
+			int a, b = 0;
+			printf("\n错误！\n");
+			while (b < 3)
+			{
+				printf("\n\n1.重新输入对方账户号码");
+				printf("\n\n2.返回主菜单");
+				printf("\n\n0.退出系统\n");
+				scanf("%d", &a);
+				switch (a)
+				{
+				case 1:
+					system("cls");
+					TransferMoney();
+					b = 3;
+					break;
+				case 2:
+					system("cls");
+					Menu();
+					b = 3;
+					break;
+				case 0:
+					b = 3;
+					SaveUserData();
+					exit(0);
+				default:
+					b++;
+					break;
+				}
+			}
+		}
+		else if (strcmp(curP->AccountNum, TT.AccountNum) == 0)
+		{
+			curAccountO = curP;//当前转账对象账户
+			return 1;
+		}
+		curP = curP->next;
+	}
+	return 0;
+}
+
+
+int main()
